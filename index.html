@@ -100,174 +100,182 @@
     <!-- Main visualizer + audio -->
     <script src="js/uwu.js"></script>
     <script>
-        // Fullscreen
-        var uwu = document.getElementById("xixixi");
-        function openFullscreen() {
-            if (uwu.requestFullscreen) {
-                    uwu.requestFullscreen();
-                } else if (uwu.webkitRequestFullscreen) { /* Safari */
-                    uwu.webkitRequestFullscreen();
-                } else if (uwu.msRequestFullscreen) { /* IE11 */
-                    uwu.msRequestFullscreen();
-                }
+    // Fullscreen
+    var uwu = document.getElementById("xixixi");
+    function openFullscreen() {
+        if (uwu.requestFullscreen) {
+            uwu.requestFullscreen();
+        } else if (uwu.webkitRequestFullscreen) { /* Safari */
+            uwu.webkitRequestFullscreen();
+        } else if (uwu.msRequestFullscreen) { /* IE11 */
+            uwu.msRequestFullscreen();
         }
-        // Efek kembang api
-        const fwCanvas = document.getElementById('firework-canvas');
-        const fwCtx = fwCanvas.getContext('2d');
-        let fireworks = [], particles = [];
-        let fireworkTimer = null;
-        let fireworkLoopInterval = null; // <<--- tambahkan untuk interval
+    }
 
-        function randomColor() {
-            const colors = [
-                "#ff6ec4", "#ffd740", "#18eaff", "#f44336",
-                "#8bc34a", "#7759f5", "#fd3a69", "#fff", "#d500f9"
-            ];
-            return colors[Math.floor(Math.random() * colors.length)];
+    // Efek kembang api
+    const fwCanvas = document.getElementById('firework-canvas');
+    const fwCtx = fwCanvas.getContext('2d');
+    let fireworks = [], particles = [];
+    let fireworkTimer = null;
+    let fireworkLoopInterval = null;
+    let fireworkActive = false;
+
+    function randomColor() {
+        const colors = [
+            "#ff6ec4", "#ffd740", "#18eaff", "#f44336",
+            "#8bc34a", "#7759f5", "#fd3a69", "#fff", "#d500f9"
+        ];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function resizeFireworkCanvas() {
+        fwCanvas.width = window.innerWidth;
+        fwCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeFireworkCanvas);
+    resizeFireworkCanvas();
+
+    function Firework(sx, sy, tx, ty) {
+        this.x = sx;
+        this.y = sy;
+        this.sx = sx;
+        this.sy = sy;
+        this.tx = tx;
+        this.ty = ty;
+        this.distanceToTarget = Math.sqrt((tx - sx) ** 2 + (ty - sy) ** 2);
+        this.distanceTraveled = 0;
+        this.coordinates = [];
+        this.coordinateCount = 3;
+        while (this.coordinateCount--) {
+            this.coordinates.push([this.x, this.y]);
         }
-
-        function resizeFireworkCanvas() {
-            fwCanvas.width = window.innerWidth;
-            fwCanvas.height = window.innerHeight;
+        this.angle = Math.atan2(ty - sy, tx - sx);
+        this.speed = 4 + Math.random() * 2;
+        this.acceleration = 1.02;
+        this.brightness = Math.random() * 30 + 50;
+        this.targetRadius = 2;
+        this.color = randomColor();
+    }
+    Firework.prototype.update = function(index) {
+        this.coordinates.pop();
+        this.coordinates.unshift([this.x, this.y]);
+        let vx = Math.cos(this.angle) * this.speed;
+        let vy = Math.sin(this.angle) * this.speed;
+        this.x += vx;
+        this.y += vy;
+        this.speed *= this.acceleration;
+        this.distanceTraveled = Math.sqrt((this.x - this.sx) ** 2 + (this.y - this.sy) ** 2);
+        if (this.distanceTraveled >= this.distanceToTarget) {
+            createParticles(this.tx, this.ty, this.color);
+            fireworks.splice(index, 1);
         }
-        window.addEventListener('resize', resizeFireworkCanvas);
-        resizeFireworkCanvas();
+    };
+    Firework.prototype.draw = function() {
+        fwCtx.beginPath();
+        let lastCoord = this.coordinates[this.coordinates.length - 1];
+        fwCtx.moveTo(lastCoord[0], lastCoord[1]);
+        fwCtx.lineTo(this.x, this.y);
+        fwCtx.strokeStyle = this.color;
+        fwCtx.stroke();
+        fwCtx.beginPath();
+        fwCtx.arc(this.tx, this.ty, this.targetRadius, 0, Math.PI * 2);
+        fwCtx.stroke();
+    };
 
-        function Firework(sx, sy, tx, ty) {
-            this.x = sx;
-            this.y = sy;
-            this.sx = sx;
-            this.sy = sy;
-            this.tx = tx;
-            this.ty = ty;
-            this.distanceToTarget = Math.sqrt((tx - sx) ** 2 + (ty - sy) ** 2);
-            this.distanceTraveled = 0;
-            this.coordinates = [];
-            this.coordinateCount = 3;
-            while (this.coordinateCount--) {
-                this.coordinates.push([this.x, this.y]);
-            }
-            this.angle = Math.atan2(ty - sy, tx - sx);
-            this.speed = 4 + Math.random() * 2;
-            this.acceleration = 1.02;
-            this.brightness = Math.random() * 30 + 50;
-            this.targetRadius = 2;
-            this.color = randomColor();
+    function Particle(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.angle = Math.random() * 2 * Math.PI;
+        this.speed = Math.random() * 5 + 2;
+        this.friction = 0.95;
+        this.gravity = 0.018;
+        this.hue = Math.random() * 60 + 30;
+        this.brightness = Math.random() * 40 + 60;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.012 + 0.011;
+        this.color = color;
+    }
+    Particle.prototype.update = function(index) {
+        this.speed *= this.friction;
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed + this.gravity;
+        this.alpha -= this.decay;
+        if (this.alpha <= 0.05) {
+            particles.splice(index, 1);
         }
-        Firework.prototype.update = function(index) {
-            this.coordinates.pop();
-            this.coordinates.unshift([this.x, this.y]);
-            let vx = Math.cos(this.angle) * this.speed;
-            let vy = Math.sin(this.angle) * this.speed;
-            this.x += vx;
-            this.y += vy;
-            this.speed *= this.acceleration;
-            this.distanceTraveled = Math.sqrt((this.x - this.sx) ** 2 + (this.y - this.sy) ** 2);
-            if (this.distanceTraveled >= this.distanceToTarget) {
-                createParticles(this.tx, this.ty, this.color);
-                fireworks.splice(index, 1);
-            }
-        };
-        Firework.prototype.draw = function() {
-            fwCtx.beginPath();
-            let lastCoord = this.coordinates[this.coordinates.length - 1];
-            fwCtx.moveTo(lastCoord[0], lastCoord[1]);
-            fwCtx.lineTo(this.x, this.y);
-            fwCtx.strokeStyle = this.color;
-            fwCtx.stroke();
-            fwCtx.beginPath();
-            fwCtx.arc(this.tx, this.ty, this.targetRadius, 0, Math.PI * 2);
-            fwCtx.stroke();
-        };
+    };
+    Particle.prototype.draw = function() {
+        fwCtx.save();
+        fwCtx.globalAlpha = this.alpha;
+        fwCtx.beginPath();
+        fwCtx.arc(this.x, this.y, 2.4, 0, Math.PI * 2);
+        fwCtx.fillStyle = this.color;
+        fwCtx.shadowColor = this.color;
+        fwCtx.shadowBlur = 18;
+        fwCtx.fill();
+        fwCtx.restore();
+    };
 
-        function Particle(x, y, color) {
-            this.x = x;
-            this.y = y;
-            this.angle = Math.random() * 2 * Math.PI;
-            this.speed = Math.random() * 5 + 2;
-            this.friction = 0.95;
-            this.gravity = 0.018;
-            this.hue = Math.random() * 60 + 30;
-            this.brightness = Math.random() * 40 + 60;
-            this.alpha = 1;
-            this.decay = Math.random() * 0.012 + 0.011;
-            this.color = color;
+    function createParticles(x, y, color) {
+        let count = 30 + Math.floor(Math.random() * 20);
+        for (let i = 0; i < count; i++) {
+            particles.push(new Particle(x, y, color));
         }
-        Particle.prototype.update = function(index) {
-            this.speed *= this.friction;
-            this.x += Math.cos(this.angle) * this.speed;
-            this.y += Math.sin(this.angle) * this.speed + this.gravity;
-            this.alpha -= this.decay;
-            if (this.alpha <= 0.05) {
-                particles.splice(index, 1);
-            }
-        };
-        Particle.prototype.draw = function() {
-            fwCtx.save();
-            fwCtx.globalAlpha = this.alpha;
-            fwCtx.beginPath();
-            fwCtx.arc(this.x, this.y, 2.4, 0, Math.PI * 2);
-            fwCtx.fillStyle = this.color;
-            fwCtx.shadowColor = this.color;
-            fwCtx.shadowBlur = 18;
-            fwCtx.fill();
-            fwCtx.restore();
-        };
+    }
 
-        function createParticles(x, y, color) {
-            let count = 30 + Math.floor(Math.random() * 20);
-            for (let i = 0; i < count; i++) {
-                particles.push(new Particle(x, y, color));
-            }
+    function loopFirework() {
+        fwCtx.globalCompositeOperation = 'destination-out';
+        fwCtx.fillStyle = 'rgba(0,0,0,0.17)';
+        fwCtx.fillRect(0, 0, fwCanvas.width, fwCanvas.height);
+        fwCtx.globalCompositeOperation = 'lighter';
+
+        for (let i = fireworks.length - 1; i >= 0; i--) {
+            fireworks[i].draw();
+            fireworks[i].update(i);
         }
-
-        function loopFirework() {
-            fwCtx.globalCompositeOperation = 'destination-out';
-            fwCtx.fillStyle = 'rgba(0,0,0,0.17)';
-            fwCtx.fillRect(0, 0, fwCanvas.width, fwCanvas.height);
-            fwCtx.globalCompositeOperation = 'lighter';
-
-            for (let i = fireworks.length - 1; i >= 0; i--) {
-                fireworks[i].draw();
-                fireworks[i].update(i);
-            }
-            for (let i = particles.length - 1; i >= 0; i--) {
-                particles[i].draw();
-                particles[i].update(i);
-            }
+        for (let i = particles.length - 1; i >= 0; i--) {
+            particles[i].draw();
+            particles[i].update(i);
+        }
+        if (fireworkActive) {
             fireworkTimer = requestAnimationFrame(loopFirework);
         }
+    }
 
-        // -- UPDATE: Kembang api berjalan terus-menerus --
-        function showFireworks() {
-            resizeFireworkCanvas();
-            if (!fireworkTimer) loopFirework();
+    // -- Kembang api akan terus-menerus muncul selama fireworkActive = true --
+    function showFireworks() {
+        resizeFireworkCanvas();
+        fireworkActive = true;
+        if (!fireworkTimer) loopFirework();
 
-            // Jika sebelumnya sudah jalan, hapus intervalnya biar tidak dobel
-            if (fireworkLoopInterval) clearInterval(fireworkLoopInterval);
-
-            // Loop: tiap 800ms, munculkan kembang api baru
-            fireworkLoopInterval = setInterval(() => {
-                let w = fwCanvas.width, h = fwCanvas.height;
+        if (fireworkLoopInterval) clearInterval(fireworkLoopInterval);
+        fireworkLoopInterval = setInterval(() => {
+            let w = fwCanvas.width, h = fwCanvas.height;
+            // Buat 2-4 fireworks sekaligus biar benar2 ramai!
+            let total = 2 + Math.floor(Math.random() * 3);
+            for (let j = 0; j < total; j++) {
                 let fx = Math.random() * w * 0.6 + w * 0.2;
                 let fy = Math.random() * h * 0.3 + h * 0.2;
                 fireworks.push(new Firework(w / 2, h, fx, fy));
-            }, 800);
+            }
+        }, 550);
 
-            // Hentikan otomatis setelah 12 detik (atau bebas)
-            setTimeout(stopFireworks, 12000);
-        }
+        // Stop otomatis setelah 12 detik (bisa kamu ubah sendiri)
+        setTimeout(stopFireworks, 12000);
+    }
 
-        // Fungsi untuk stop & bersihkan canvas (auto panggil di atas)
-        function stopFireworks() {
-            if (fireworkLoopInterval) clearInterval(fireworkLoopInterval);
-            if (fireworkTimer) cancelAnimationFrame(fireworkTimer);
-            fireworkLoopInterval = null;
-            fireworkTimer = null;
-            fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
-            fireworks = [];
-            particles = [];
-        }
-    </script>
+    // Stop & bersihkan canvas
+    function stopFireworks() {
+        fireworkActive = false;
+        if (fireworkLoopInterval) clearInterval(fireworkLoopInterval);
+        if (fireworkTimer) cancelAnimationFrame(fireworkTimer);
+        fireworkLoopInterval = null;
+        fireworkTimer = null;
+        fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
+        fireworks = [];
+        particles = [];
+    }
+</script>
+
 </body>
 </html>
