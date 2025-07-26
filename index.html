@@ -8,82 +8,15 @@
     <meta name="author" content="Wafa Rifki Anafin" />
     <link rel="stylesheet" type="text/css" href="css/uwu-primary.css" />
     <link rel="stylesheet" type="text/css" href="css/uwu.css" />
-    <!-- Tambahkan Google Fonts (Poppins dan Pacifico untuk aksen) -->
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', 'kionaregular', Arial, sans-serif;
-            background: linear-gradient(135deg, #ffe8f4 0%, #c7d2fe 100%);
-            min-height: 100vh;
-            color: #27384a;
-        }
-        .content__subtitle {
-            font-family: 'Pacifico', cursive;
-            color: #ff6ec4;
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 12px #fff8, 0 0px 1px #fff;
-        }
-        .content__title {
-            font-family: 'Poppins', 'kionaregular', Arial, sans-serif;
-            font-size: 3.7rem;
-            font-weight: 700;
-            color: #7759f5;
-            text-shadow: 0 4px 18px #ffb3ec88, 0 1px 0 #fff;
-            margin-bottom: 1.3rem;
-        }
-        .content__credits {
-            font-family: 'walkway_condensedregular', 'Poppins', Arial, sans-serif;
-            font-size: 1.2rem;
-            color: #424242;
-            letter-spacing: 1.2px;
-            background: rgba(255,255,255,0.74);
-            border-radius: 18px;
-            box-shadow: 0 4px 24px #ff6ec455, 0 0 0 #fff;
-            padding: 28px 32px;
-            margin-top: 2.5rem;
-        }
-        .content__credits small {
-            color: #ff6ec4;
-            font-weight: bold;
-        }
-        .button--box {
-            background: linear-gradient(90deg, #ffb3ec 0%, #a18cd1 100%);
-            color: #fff;
-            box-shadow: 0 4px 24px #ff6ec477;
-            font-size: 1.3rem;
-            font-family: 'Poppins', Arial, sans-serif;
-            border: none;
-            padding: 0.7rem 2.7rem;
-            border-radius: 32px;
-            margin-top: 20px;
-            transition: transform 0.1s, box-shadow 0.2s;
-        }
-        .button--box:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 32px #a18cd177;
-            background: linear-gradient(90deg, #a18cd1 0%, #ffb3ec 100%);
-        }
-        .frame__title {
-            font-family: 'Pacifico', cursive;
-            color: #ff6ec4;
-            font-size: 1.6rem;
-            letter-spacing: 3px;
-            text-shadow: 0 2px 12px #fff8;
-        }
-        .action__line {
-            font-family: 'Pacifico', cursive;
-            color: #ff6ec4;
-            font-size: 2.1rem;
-            margin-top: 1.5rem;
-        }
-        /* Responsive */
-        @media (max-width: 600px) {
-            .content__title { font-size: 2rem; }
-            .content__credits { font-size: 1rem; padding: 16px 8px;}
-            .content__subtitle { font-size: 1.3rem; }
-            .button--box { font-size: 1rem; }
+        /* Custom agar canvas kembang api di atas semuanya */
+        #firework-canvas {
+            position: fixed;
+            left: 0; top: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 99999;
         }
     </style>
     <script>
@@ -99,9 +32,10 @@
     </script>
 </head>
 <body id="xixixi">
+    <!-- CANVAS KEMBANG API -->
+    <canvas id="firework-canvas"></canvas>
     <main>
         <svg class="hidden">
-            <!-- svg symbols... (sama) -->
             <symbol id="icon-soundon" viewBox="0 0 32 31">
                 <title>Sound on</title>
                 <path d="M6.405 9.239H0v13.128h6.405l12.474 8.316V.923L6.405 9.239zM5.75 20.491H1.875v-9.377h3.876v9.377zm11.252 6.687l-9.376-6.25v-10.25l9.376-6.25v22.75zm10.884-21.32c5.484 5.483 5.484 14.406 0 19.89l-1.326-1.326c4.753-4.752 4.753-12.486 0-17.239l1.326-1.326zm-2.652 2.651c4.021 4.022 4.021 10.566 0 14.587l-1.326-1.326c3.29-3.29 3.29-8.644 0-11.935l1.326-1.326zm-2.652 2.652a6.571 6.571 0 010 9.283l-1.327-1.326a4.694 4.694 0 000-6.63l1.327-1.327z"/>
@@ -112,7 +46,7 @@
             </symbol>
         </svg>
         <div class="frame">
-            <h1 class="frame__title">🌸 LAURA NAVISAH 🌸</h1>
+            <h1 class="frame__title"></h1>
             <div class="frame__links"></div>
             <div class="frame__demos">
                 <a href="#" class="frame__demo frame__demo--current"></a>
@@ -127,14 +61,11 @@
             </button>
         </div>
         <div class="content">
-            <br><br><br><br>
-            <h3 class="content__subtitle">Selamat Pagi, Laura 🌅</h3>
+            <br><br><br><br><br><br><br><br>
+            <h3 class="content__subtitle">Selamat Pagi Laura</h3>
             <h2 class="content__title">LAURA NAVISAH NURHAMID</h2>
-            <div class="content__credits">
-                <small>Haiii Laura.</small> Ada cerita yang terbuat karena jarak. <small>wkwkw cuma sekedar hiburan,</small>
-                Burung gelatik lagi gosok gigi.<small> Selamat pagi cantik.</small> Tetap semangat!
-                <small>Semangat beraktifitas</small>
-                <br /><br /><a href="https://instagram.com/kartiko_ardhi" rel="sponsored" target="_blank" style="color:#7759f5;">Created by Pakar</a>
+            <div class="content__credits"><small>Haiii Laura.</small> Ada cerita yang terbuat karena jarak.<small> wkwkw Cuma Sekedar Hiburan,</small>Burung Gelatik Lagi Gosok Gigi. <small>Selamat Pagi Cantik.</small> Tetap Semangat <small>Semangat Beraktifitas</small>
+                <br /><br /><br /><a href="https://instagram.com/kartiko_ardhi" rel="sponsored">Created by Pakar</a>
             </div>
         </div>
         <div class="screen screen--grid intro">
@@ -148,19 +79,19 @@
             </p>
         </div>
         <div class="screen screen--flex action">
-            <span class="action__line">Hai Laura 🌻</span>
-            <button id="play-btn" class="button button--box" onclick="openFullscreen();">Mulai Sekarang</button>
+            <span class="action__line">Hai Laura</span>
+            <button id="play-btn" class="button button--box" onclick="openFullscreen(); showFireworks();">Mulai Sekarang</button>
         </div>
     </main>
     <div id="p5_loading" class="p5_loading">
         <div class="p5_loading__inner"></div>
     </div>
-    <!-- Libs & main JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.sound.min.js"></script>
     <script src="js/uwu.js"></script>
     <script>
+        // Fungsi fullscreen
         var uwu = document.getElementById("xixixi");
         function openFullscreen() {
             if (uwu.requestFullscreen) {
@@ -170,6 +101,155 @@
                 } else if (uwu.msRequestFullscreen) { /* IE11 */
                     uwu.msRequestFullscreen();
                 }
+        }
+
+        // Efek kembang api
+        // Sumber: ChatGPT, no depedency, sudah dioptimasi
+        const fwCanvas = document.getElementById('firework-canvas');
+        const fwCtx = fwCanvas.getContext('2d');
+        let fireworks = [], particles = [];
+        let fireworkTimer = null;
+
+        function randomColor() {
+            const colors = [
+                "#ff6ec4", "#ffd740", "#18eaff", "#f44336",
+                "#8bc34a", "#7759f5", "#fd3a69", "#fff", "#d500f9"
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function resizeFireworkCanvas() {
+            fwCanvas.width = window.innerWidth;
+            fwCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeFireworkCanvas);
+        resizeFireworkCanvas();
+
+        function Firework(sx, sy, tx, ty) {
+            this.x = sx;
+            this.y = sy;
+            this.sx = sx;
+            this.sy = sy;
+            this.tx = tx;
+            this.ty = ty;
+            this.distanceToTarget = Math.sqrt((tx - sx) ** 2 + (ty - sy) ** 2);
+            this.distanceTraveled = 0;
+            this.coordinates = [];
+            this.coordinateCount = 3;
+            while (this.coordinateCount--) {
+                this.coordinates.push([this.x, this.y]);
+            }
+            this.angle = Math.atan2(ty - sy, tx - sx);
+            this.speed = 4 + Math.random() * 2;
+            this.acceleration = 1.02;
+            this.brightness = Math.random() * 30 + 50;
+            this.targetRadius = 2;
+            this.color = randomColor();
+        }
+        Firework.prototype.update = function(index) {
+            this.coordinates.pop();
+            this.coordinates.unshift([this.x, this.y]);
+            let vx = Math.cos(this.angle) * this.speed;
+            let vy = Math.sin(this.angle) * this.speed;
+            this.x += vx;
+            this.y += vy;
+            this.speed *= this.acceleration;
+            this.distanceTraveled = Math.sqrt((this.x - this.sx) ** 2 + (this.y - this.sy) ** 2);
+            if (this.distanceTraveled >= this.distanceToTarget) {
+                createParticles(this.tx, this.ty, this.color);
+                fireworks.splice(index, 1);
+            }
+        };
+        Firework.prototype.draw = function() {
+            fwCtx.beginPath();
+            let lastCoord = this.coordinates[this.coordinates.length - 1];
+            fwCtx.moveTo(lastCoord[0], lastCoord[1]);
+            fwCtx.lineTo(this.x, this.y);
+            fwCtx.strokeStyle = this.color;
+            fwCtx.stroke();
+            fwCtx.beginPath();
+            fwCtx.arc(this.tx, this.ty, this.targetRadius, 0, Math.PI * 2);
+            fwCtx.stroke();
+        };
+
+        function Particle(x, y, color) {
+            this.x = x;
+            this.y = y;
+            this.angle = Math.random() * 2 * Math.PI;
+            this.speed = Math.random() * 5 + 2;
+            this.friction = 0.95;
+            this.gravity = 0.018;
+            this.hue = Math.random() * 60 + 30;
+            this.brightness = Math.random() * 40 + 60;
+            this.alpha = 1;
+            this.decay = Math.random() * 0.012 + 0.011;
+            this.color = color;
+        }
+        Particle.prototype.update = function(index) {
+            this.speed *= this.friction;
+            this.x += Math.cos(this.angle) * this.speed;
+            this.y += Math.sin(this.angle) * this.speed + this.gravity;
+            this.alpha -= this.decay;
+            if (this.alpha <= 0.05) {
+                particles.splice(index, 1);
+            }
+        };
+        Particle.prototype.draw = function() {
+            fwCtx.save();
+            fwCtx.globalAlpha = this.alpha;
+            fwCtx.beginPath();
+            fwCtx.arc(this.x, this.y, 2.4, 0, Math.PI * 2);
+            fwCtx.fillStyle = this.color;
+            fwCtx.shadowColor = this.color;
+            fwCtx.shadowBlur = 18;
+            fwCtx.fill();
+            fwCtx.restore();
+        };
+
+        function createParticles(x, y, color) {
+            let count = 30 + Math.floor(Math.random() * 20);
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(x, y, color));
+            }
+        }
+
+        function loopFirework() {
+            fwCtx.globalCompositeOperation = 'destination-out';
+            fwCtx.fillStyle = 'rgba(0,0,0,0.17)';
+            fwCtx.fillRect(0, 0, fwCanvas.width, fwCanvas.height);
+            fwCtx.globalCompositeOperation = 'lighter';
+
+            for (let i = fireworks.length - 1; i >= 0; i--) {
+                fireworks[i].draw();
+                fireworks[i].update(i);
+            }
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].draw();
+                particles[i].update(i);
+            }
+            fireworkTimer = requestAnimationFrame(loopFirework);
+        }
+
+        // Munculkan fireworks di beberapa titik random
+        function showFireworks() {
+            // Langsung fullscreen canvas
+            resizeFireworkCanvas();
+            let launch = () => {
+                let w = fwCanvas.width, h = fwCanvas.height;
+                let fx = Math.random() * w * 0.6 + w * 0.2;
+                let fy = Math.random() * h * 0.3 + h * 0.2;
+                fireworks.push(new Firework(w / 2, h, fx, fy));
+            };
+            for (let i = 0; i < 4; i++) setTimeout(launch, i * 350);
+            if (!fireworkTimer) loopFirework();
+            // Hentikan setelah 3 detik
+            setTimeout(() => {
+                cancelAnimationFrame(fireworkTimer);
+                fireworkTimer = null;
+                fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
+                fireworks = [];
+                particles = [];
+            }, 3500);
         }
     </script>
 </body>
