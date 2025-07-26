@@ -11,7 +11,6 @@
     <!-- Google Fonts (opsional, untuk aksen) -->
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Firework canvas di atas semua */
         #firework-canvas {
             position: fixed;
             left: 0; top: 0;
@@ -66,8 +65,14 @@
             <br><br><br><br><br><br><br><br>
             <h3 class="content__subtitle">Selamat Pagi Laura</h3>
             <h2 class="content__title">LAURA NAVISAH NURHAMID</h2>
-            <div class="content__credits"><small>Haiii Laura.</small> Ada cerita yang terbuat karena jarak.<small> wkwkw Cuma Sekedar Hiburan,</small>Burung Gelatik Lagi Gosok Gigi. <small>Selamat Pagi Cantik.</small> Tetap Semangat <small>Semangat Beraktifitas</small>
-                <br /><br /><br /><a href="https://instagram.com/kartiko_ardhi" rel="sponsored">Created by Pakar</a>
+            <div class="content__credits">
+                <span class="credits-bold">HAI LAURA</span>, ADA CERITA YANG TERBUAT KARENA JARAK.
+                <span class="credits-pink">WKWKW CUMA SEKEDAR HIBURAN</span>.
+                BURUNG GELATIK LAGI GOSOK GIGI.
+                <span class="credits-highlight">SELAMAT PAGI CANTIK</span>.
+                TETAP SEMANGAT <span class="credits-orange">SEMANGAT BERAKTIFITAS</span>
+                <br>
+                <span class="credits-author">CREATED BY PAKAR</span>
             </div>
         </div>
         <div class="screen screen--grid intro">
@@ -232,9 +237,7 @@
             fireworkTimer = requestAnimationFrame(loopFirework);
         }
 
-        // Munculkan fireworks di beberapa titik random
         function showFireworks() {
-            // Langsung fullscreen canvas
             resizeFireworkCanvas();
             let launch = () => {
                 let w = fwCanvas.width, h = fwCanvas.height;
@@ -244,7 +247,6 @@
             };
             for (let i = 0; i < 4; i++) setTimeout(launch, i * 350);
             if (!fireworkTimer) loopFirework();
-            // Hentikan setelah 3 detik
             setTimeout(() => {
                 cancelAnimationFrame(fireworkTimer);
                 fireworkTimer = null;
