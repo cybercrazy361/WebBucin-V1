@@ -8,8 +8,10 @@
     <meta name="author" content="Wafa Rifki Anafin" />
     <link rel="stylesheet" type="text/css" href="css/uwu-primary.css" />
     <link rel="stylesheet" type="text/css" href="css/uwu.css" />
+    <!-- Google Fonts (opsional, untuk aksen) -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom agar canvas kembang api di atas semuanya */
+        /* Firework canvas di atas semua */
         #firework-canvas {
             position: fixed;
             left: 0; top: 0;
@@ -32,7 +34,7 @@
     </script>
 </head>
 <body id="xixixi">
-    <!-- CANVAS KEMBANG API -->
+    <!-- Canvas Kembang Api -->
     <canvas id="firework-canvas"></canvas>
     <main>
         <svg class="hidden">
@@ -86,12 +88,14 @@
     <div id="p5_loading" class="p5_loading">
         <div class="p5_loading__inner"></div>
     </div>
+    <!-- Libs p5js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.sound.min.js"></script>
+    <!-- Main visualizer + audio -->
     <script src="js/uwu.js"></script>
     <script>
-        // Fungsi fullscreen
+        // Fullscreen
         var uwu = document.getElementById("xixixi");
         function openFullscreen() {
             if (uwu.requestFullscreen) {
@@ -102,9 +106,7 @@
                     uwu.msRequestFullscreen();
                 }
         }
-
         // Efek kembang api
-        // Sumber: ChatGPT, no depedency, sudah dioptimasi
         const fwCanvas = document.getElementById('firework-canvas');
         const fwCtx = fwCanvas.getContext('2d');
         let fireworks = [], particles = [];
