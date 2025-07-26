@@ -116,6 +116,7 @@
         const fwCtx = fwCanvas.getContext('2d');
         let fireworks = [], particles = [];
         let fireworkTimer = null;
+        let fireworkLoopInterval = null; // <<--- tambahkan untuk interval
 
         function randomColor() {
             const colors = [
@@ -237,23 +238,35 @@
             fireworkTimer = requestAnimationFrame(loopFirework);
         }
 
+        // -- UPDATE: Kembang api berjalan terus-menerus --
         function showFireworks() {
             resizeFireworkCanvas();
-            let launch = () => {
+            if (!fireworkTimer) loopFirework();
+
+            // Jika sebelumnya sudah jalan, hapus intervalnya biar tidak dobel
+            if (fireworkLoopInterval) clearInterval(fireworkLoopInterval);
+
+            // Loop: tiap 800ms, munculkan kembang api baru
+            fireworkLoopInterval = setInterval(() => {
                 let w = fwCanvas.width, h = fwCanvas.height;
                 let fx = Math.random() * w * 0.6 + w * 0.2;
                 let fy = Math.random() * h * 0.3 + h * 0.2;
                 fireworks.push(new Firework(w / 2, h, fx, fy));
-            };
-            for (let i = 0; i < 4; i++) setTimeout(launch, i * 350);
-            if (!fireworkTimer) loopFirework();
-            setTimeout(() => {
-                cancelAnimationFrame(fireworkTimer);
-                fireworkTimer = null;
-                fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
-                fireworks = [];
-                particles = [];
-            }, 3500);
+            }, 800);
+
+            // Hentikan otomatis setelah 12 detik (atau bebas)
+            setTimeout(stopFireworks, 12000);
+        }
+
+        // Fungsi untuk stop & bersihkan canvas (auto panggil di atas)
+        function stopFireworks() {
+            if (fireworkLoopInterval) clearInterval(fireworkLoopInterval);
+            if (fireworkTimer) cancelAnimationFrame(fireworkTimer);
+            fireworkLoopInterval = null;
+            fireworkTimer = null;
+            fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
+            fireworks = [];
+            particles = [];
         }
     </script>
 </body>
