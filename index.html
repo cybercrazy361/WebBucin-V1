@@ -8,7 +8,7 @@
     <meta name="author" content="Wafa Rifki Anafin" />
     <link rel="stylesheet" type="text/css" href="css/uwu-primary.css" />
     <link rel="stylesheet" type="text/css" href="css/uwu.css" />
-    <!-- Google Fonts (opsional, untuk aksen) -->
+    <!-- Google Fonts (optional) -->
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
         #firework-canvas {
@@ -21,15 +21,15 @@
         }
     </style>
     <script>
-        document.documentElement.className="js";
-        var supportsCssVars=function(){
-            var e,t=document.createElement("style");
-            return t.innerHTML="root: { --tmp-var: bold; }",
+        document.documentElement.className = "js";
+        var supportsCssVars = function () {
+            var e, t = document.createElement("style");
+            return t.innerHTML = "root: { --tmp-var: bold; }",
                 document.head.appendChild(t),
-                e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),
-                t.parentNode.removeChild(t),e
+                e = !!(window.CSS && window.CSS.supports && window.CSS.supports("font-weight", "var(--tmp-var)")),
+                t.parentNode.removeChild(t), e
         };
-        supportsCssVars()||alert("Please view this website in a modern browser that supports CSS Variables.");
+        supportsCssVars() || alert("Please view this website in a modern browser that supports CSS Variables.");
     </script>
 </head>
 <body id="xixixi">
@@ -251,16 +251,16 @@
         if (fireworkLoopInterval) clearInterval(fireworkLoopInterval);
         fireworkLoopInterval = setInterval(() => {
             let w = fwCanvas.width, h = fwCanvas.height;
-            // Buat 2-4 fireworks sekaligus biar benar2 ramai!
+            // Biar rame: spawn 2-4 fireworks tiap interval!
             let total = 2 + Math.floor(Math.random() * 3);
             for (let j = 0; j < total; j++) {
                 let fx = Math.random() * w * 0.6 + w * 0.2;
                 let fy = Math.random() * h * 0.3 + h * 0.2;
                 fireworks.push(new Firework(w / 2, h, fx, fy));
             }
-        }, 550);
+        }, 500);
 
-        // Stop otomatis setelah 12 detik (bisa kamu ubah sendiri)
+        // Stop otomatis setelah 12 detik (bisa diubah)
         setTimeout(stopFireworks, 12000);
     }
 
@@ -275,7 +275,6 @@
         fireworks = [];
         particles = [];
     }
-</script>
-
+    </script>
 </body>
 </html>

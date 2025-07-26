@@ -19,11 +19,11 @@
   font-size: 15px;
   --color-bg: #ffe8f4;
   --color-bg-gradient: linear-gradient(135deg, #ffe8f4 0%, #c7d2fe 100%);
-  --color-text: #3b3b3b;
+  --color-text: #2d2d2d;
   --color-title: #7759f5;
   --color-link: #ff6ec4;
   --color-link-hover: #7759f5;
-  --color-card-bg: rgba(255,255,255,0.82);
+  --color-card-bg: rgba(255,255,255,0.97);
   --shadow-soft: 0 6px 28px 0 #ffb3ec22, 0 1px 2px #0001;
 }
 
@@ -45,16 +45,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Kalau mau pakai gambar juga: */
-/*
-body {
-  background: linear-gradient(135deg, #ffe8f4 0%, #c7d2fe 100%), url('../img/1.jpg');
-  background-size: cover;
-  background-position: center;
-}
-*/
-
-/* Firework Canvas */
 #firework-canvas {
   position: fixed;
   left: 0; top: 0;
@@ -64,7 +54,6 @@ body {
   z-index: 99999;
 }
 
-/* Reset canvas style for other p5.js canvases */
 canvas:not(#firework-canvas) {
   position: absolute;
   left: 50%;
@@ -95,7 +84,6 @@ canvas:not(#firework-canvas) {
   to { opacity: 1; transform: scale3d(0.5,0.5,1);}
 }
 
-/* Link Style */
 a {
   text-decoration: none;
   color: var(--color-link);
@@ -186,7 +174,6 @@ a:hover, a:focus {
 .start-anim .toggle { pointer-events: auto; }
 .start-anim .button--box { pointer-events: none; } 
 
-/* Content Section */
 .content {
   display: flex;
   flex-direction: column;
@@ -222,35 +209,56 @@ a:hover, a:focus {
   margin-bottom: 1.3rem;
 }
 
-/* === Tambahan untuk highlight dan author di content__credits === */
-.credits-bold { color: #ff6ec4; font-weight: bold; }
-.credits-pink { color: #f46ed6; font-weight: bold; }
-.credits-highlight { color: #7759f5; font-weight: bold; }
-.credits-orange { color: #ffa85c; font-weight: bold; }
-.credits-author {
-  margin-top: 18px;
-  display: block;
-  color: #e040fb;
-  font-family: 'Pacifico', cursive;
-  font-size: 1.17rem;
-  letter-spacing: 2px;
-  opacity: 0.97;
-  font-weight: bold;
-  text-shadow: 0 2px 12px #fff7, 0 0 1px #fff;
-}
-
-/* Custom font for credit box */
+/* === CREDITS BOX SUPERCLEAR & MODERN === */
 .content__credits {
   font-family: 'walkway_condensedregular', 'Poppins', Arial, sans-serif;
-  font-size: 1.2rem;
-  color: #424242;
+  font-size: 1.22rem;
+  color: #252525;
   background: var(--color-card-bg);
   border-radius: 22px;
-  box-shadow: var(--shadow-soft);
-  padding: 2rem 2.2rem;
-  margin: 3.3rem 0;
+  box-shadow: 0 8px 32px #a18cd199, 0 2px 6px #fff2;
+  padding: 2.2rem 2.5rem 1.6rem 2.5rem;
+  margin: 2.6rem 0 1.2rem 0;
   text-align: center;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.19px;
+  font-weight: 700;
+  /* clarity */
+  text-shadow: 0 2px 18px #fff, 0 0px 2px #fff9;
+  border: 1.5px solid #ebe2fa;
+  backdrop-filter: blur(7px) brightness(1.10);
+  /* transition: box-shadow 0.21s; */
+  transition: background 0.24s;
+}
+.credits-bold {
+  color: #7759f5;
+  font-weight: 900;
+  letter-spacing: 1.6px;
+  text-shadow: 0 1px 7px #a18cd199, 0 0 2px #fff;
+}
+.credits-pink {
+  color: #e847ae;
+  font-weight: bold;
+  text-shadow: 0 1px 8px #ffd1fa88;
+}
+.credits-highlight {
+  color: #ff6ec4;
+  font-weight: bold;
+  text-shadow: 0 1px 8px #ffe8f466;
+}
+.credits-orange {
+  color: #ffb300;
+  font-weight: 700;
+  text-shadow: 0 1px 8px #ffd74077;
+}
+.credits-author {
+  color: #ae91ee;
+  font-size: 1.13rem;
+  display: block;
+  margin-top: 24px;
+  letter-spacing: 1.7px;
+  font-family: 'Pacifico', cursive;
+  font-weight: 900;
+  text-shadow: 0 2px 12px #fff, 0 1px 1px #fff8;
 }
 
 /* === Intro screen anim, delay diperlama === */
@@ -274,11 +282,8 @@ a:hover, a:focus {
   align-items: center;
   justify-content: center;
 }
-
-/* PERPANJANG DURASI INTRO DI SINI! */
 .start-anim .intro { animation: fadeOut 1s 12s linear forwards; }
 @keyframes fadeOut { to { opacity: 0; } }
-
 .intro__content {
   font-size: 4vw;
   grid-area: 1 / 1 / 2 / 2;
@@ -295,7 +300,6 @@ a:hover, a:focus {
   font-size: 1.5rem;
 }
 .no-js .intro { display: none; }
-
 .start-anim .intro__content {
   animation: fadeInOut 6.5s 2.2s linear forwards;
 }
@@ -325,7 +329,7 @@ a:hover, a:focus {
 @media screen and (max-width: 750px) {
   :root { font-size: 13.2px;}
   .content__title { font-size: 2rem; }
-  .content__credits { font-size: 1rem; padding: 16px 8px;}
+  .content__credits { font-size: 1rem; padding: 15px 8px;}
   .content__subtitle { font-size: 1.3rem; }
   .button--box { font-size: 1rem; padding: 0.8rem 1.5rem; }
 }
