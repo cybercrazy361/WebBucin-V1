@@ -1,10 +1,10 @@
+/* Tambahkan di PALING ATAS file CSS utama kamu: */
 @font-face {
     font-family: 'kionaregular';
-    src: url('../fonts/kiona-regular-webfont.woff') format('woff2'),
+    src: url('../fonts/kiona-regular-webfont.woff2') format('woff2'),
          url('../fonts/kiona-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-
 }
 
 @font-face {
@@ -15,13 +15,16 @@
     font-style: normal;
 }
 
+/* Lalu override font di bagian bawah (atau setelah import font Google): */
 body {
-    font-family: 'kionaregular';
+    font-family: 'kionaregular', 'Poppins', Arial, sans-serif;
     background-image: url(../img/1.jpg);
+    background-size: cover;
+    background-position: center;
 }
 
 .content__credits {
-    font-family: 'walkway_condensedregular';
+    font-family: 'walkway_condensedregular', 'Poppins', Arial, sans-serif;
     letter-spacing: 1px;
     font-size: 1.15rem;
 }

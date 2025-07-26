@@ -1,5 +1,5 @@
 const s = (p) => {
-  let demo1Shader, img, fft, audio, toggleBtn
+  let demo1Shader, img, fft, audio, toggleBtn, playBtn
 
   p.preload = () => {
     audio = p.loadSound('audio/uwu.mp3')
@@ -8,27 +8,27 @@ const s = (p) => {
   }
 
   p.setup = () => {
-      playBtn = document.querySelector('#play-btn')
-      playBtn.addEventListener('click', () => {
-        document.body.classList.add('start-anim')
-          audio.loop()
-      })
+    playBtn = document.querySelector('#play-btn')
+    playBtn.addEventListener('click', () => {
+      document.body.classList.add('start-anim')
+      audio.loop()
+    })
 
-      p.pixelDensity(1)
-      p.createCanvas(p.windowWidth, p.windowHeight, p.WEBGL)
+    p.pixelDensity(1)
+    p.createCanvas(p.windowWidth, p.windowHeight, p.WEBGL)
 
-      toggleBtn = document.querySelector('#toggle-btn')
-      toggleBtn.addEventListener('click', () => {
-        toggleBtn.classList.toggle('toggle--on')
-        this.toggleAudio()
-      })
+    toggleBtn = document.querySelector('#toggle-btn')
+    toggleBtn.addEventListener('click', () => {
+      toggleBtn.classList.toggle('toggle--on')
+      toggleAudio()
+    })
 
-      fft = new p5.FFT()
-      p.shader(demo1Shader)
+    fft = new p5.FFT()
+    p.shader(demo1Shader)
 
-      demo1Shader.setUniform('u_resolution', [p.windowWidth, p.windowHeight])
-      demo1Shader.setUniform('u_texture', img)
-      demo1Shader.setUniform('u_tResolution', [img.width, img.height])
+    demo1Shader.setUniform('u_resolution', [p.windowWidth, p.windowHeight])
+    demo1Shader.setUniform('u_texture', img)
+    demo1Shader.setUniform('u_tResolution', [img.width, img.height])
   }
 
   p.draw = () => {
@@ -47,7 +47,7 @@ const s = (p) => {
     demo1Shader.setUniform('u_tremble', mapTremble)
     demo1Shader.setUniform('u_mid', mapMid)
 
-    p.rect(0,0, p.width, p.height)
+    p.rect(0, 0, p.width, p.height)
   }
 
   p.windowResized = () => {
@@ -55,7 +55,7 @@ const s = (p) => {
     demo1Shader.setUniform('u_resolution', [p.windowWidth, p.windowHeight])
   }
 
-  toggleAudio = () => {
+  function toggleAudio() {
     if (audio.isPlaying()) {
       audio.pause()
     } else {
